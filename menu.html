@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - Student Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* =============== GLOBAL STYLES =============== */
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray: #333333;
+      --light-gray: #f5f5f5;
+      --shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --glow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* =============== NAVBAR =============== */
+    .navbar {
+      background-color: var(--black) !important;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+
+    .navbar-brand::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      margin: 0 0.2rem;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* =============== HERO SECTION =============== */
+    .hero-section {
+      position: relative;
+      padding: 5rem 0;
+      background-color: var(--light-gray);
+      margin-bottom: 2rem;
+    }
+
+    .hero-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--black);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .hero-logo:hover {
+      transform: rotate(15deg) scale(1.1);
+    }
+
+    .hero-title {
+      font-weight: 700;
+      font-size: 3rem;
+      margin: 1rem 0;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto;
+      color: var(--gray);
+    }
+
+    /* =============== CARDS =============== */
+    .card {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--black);
+      transition: var(--transition);
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.2);
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--black);
+    }
+
+    .card-text {
+      color: var(--gray);
+    }
+
+    /* =============== BUTTONS =============== */
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px);
+    }
+
+    /* =============== COURSES TABLE =============== */
+    .course-table {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .course-table th {
+      background: var(--black);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    .course-table tr {
+      transition: var(--transition);
+    }
+
+    .course-table tr:hover {
+      background-color: var(--light-gray);
+    }
+
+    /* =============== USER PROFILE =============== */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50px;
+      padding: 0.3rem 0.3rem 0.3rem 1rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .user-profile:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--black);
+      margin-right: 0.5rem;
+    }
+
+    .user-name {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+
+    footer {
+      background-color: var(--black);
+      color: var(--white);
+      padding: 1.5rem 0;
+      margin-top: auto;
+    }
+
+    .social-icons a {
+      color: var(--white);
+      margin: 0 0.5rem;
+      transition: var(--transition);
+    }
+
+    .social-icons a:hover {
+      opacity: 0.8;
+    }
+
+
+    /* =============== BACK TO TOP BUTTON =============== */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+      display: none;
+      background: var(--black);
+      color: var(--white);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .back-to-top:hover {
+      transform: scale(1.1);
+    }
+
+
+    /* =============== RESPONSIVE ADJUSTMENTS =============== */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .navbar-brand {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+     <a class="navbar-brand" href="menu.html"><i class="bi bi-mortarboard-fill me-2"></i>Eunoia</a> 
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dataview1.html">Profiles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="announcement.html">Announcements</a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.facebook.com/"><i class="bi bi-facebook fs-5"></i></a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.instagram.com/"><i class="bi bi-instagram fs-5"></i></a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.linkedin.com/"><i class="bi bi-linkedin fs-5"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container text-center">
+      <!-- Replace with your logo image -->
+      <img src="images/logo.png" alt="Student Portal Logo" class="hero-logo mb-4">
+      <h1 class="hero-title">Welcome Back, John!</h1>
+      <p class="hero-subtitle">Access your courses, connect with peers, and stay updated with campus life</p>
+      
+      <!-- User Profile Info -->
+      <div class="d-flex justify-content-end">
+        <div class="user-profile">
+          <img src="images/johnwick1.jpg" alt="User Profile" class="user-avatar">
+          <span class="user-name">John Wick</span>
+          <button class="btn btn-sm" style="background: var(--light-gray); border-radius: 50%;">
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Announcement -->
+  <div class="container my-4">
+    <div class="alert alert-dismissible fade show" role="alert" 
+         style="background: var(--white); border: 1px solid rgba(0, 0, 0, 0.1);">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-megaphone-fill me-3" style="font-size: 1.5rem;"></i>
+        <div>
+          <strong>Exam Schedule Updated!</strong> The final exam schedule has been revised. Check the new dates.
+        </div>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+
+  <!-- Quick Search Bar -->
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="input-group">
+          <input type="search" class="form-control" placeholder="Search students or announcements..." 
+                 style="border-radius: 50px; padding: 0.8rem 1.5rem; border: 1px solid rgba(0, 0, 0, 0.1);">
+          <button class="btn btn-primary" style="border-radius: 50px; margin-left: 0.5rem;">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Menu Cards -->
+  <div class="container py-5">
+    <h2 class="text-center mb-5">Main Menu</h2>
+    <div class="row justify-content-center g-4">
+
+      <!-- Dashboard Card -->
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center p-4">
+            <i class="bi bi-bar-chart-line-fill card-icon"></i>
+            <h5 class="card-title">Dashboard</h5>
+            <p class="card-text">View summary information about students and announcements.</p>
+            <a href="dashboard.html" class="btn btn-primary mt-3">
+              <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profiles Card -->
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center p-4">
+            <i class="bi bi-people-fill card-icon"></i>
+            <h5 class="card-title">Student Profiles</h5>
+            <p class="card-text">Browse list of students and their academic details.</p>
+            <a href="dataview1.html" class="btn btn-primary mt-3">
+              <i class="bi bi-person-fill me-2"></i>View Profiles
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Announcements Card -->
+      <div class="col-md-4">
+        <div class="card h-100">
+          <div class="card-body text-center p-4">
+            <i class="bi bi-megaphone-fill card-icon"></i>
+            <h5 class="card-title">Announcements</h5>
+            <p class="card-text">Check latest updates, notices, and events from the portal.</p>
+            <a href="announcement.html" class="btn btn-primary mt-3">
+              <i class="bi bi-megaphone-fill me-2"></i>View Announcements
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Courses Section -->
+    <div class="row mt-5">
+      <div class="col-md-12">
+        <h3 class="mb-4">Your Enrolled Courses</h3>
+        <div class="table-responsive">
+          <table class="table course-table">
+            <thead>
+              <tr>
+                <th>Course Name</th>
+                <th>Instructor</th>
+                <th>Progress</th>
+                <th>Grade</th>
+                <th>Credits</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Web Development</td>
+                <td>Dr. Smith</td>
+                <td>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-dark" role="progressbar" style="width: 75%;"></div>
+                  </div>
+                </td>
+                <td><span class="badge bg-dark rounded-pill">B+</span></td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Advanced UI/UX Design</td>
+                <td>Prof. Johnson</td>
+                <td>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-dark" role="progressbar" style="width: 90%;"></div>
+                  </div>
+                </td>
+                <td><span class="badge bg-dark rounded-pill">A-</span></td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>Database Management</td>
+                <td>Dr. Williams</td>
+                <td>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-dark" role="progressbar" style="width: 60%;"></div>
+                  </div>
+                </td>
+                <td><span class="badge bg-dark rounded-pill">C+</span></td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Cloud Computing</td>
+                <td>Prof. Brown</td>
+                <td>
+                  <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-dark" role="progressbar" style="width: 85%;"></div>
+                  </div>
+                </td>
+                <td><span class="badge bg-dark rounded-pill">A</span></td>
+                <td>4</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="text-center mt-5">
+      <a href="index.html" class="btn btn-primary px-5 py-2">
+        <i class="bi bi-box-arrow-left me-2"></i>Logout
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="mb-2"><i class="bi bi-c-circle me-2"></i>2025 Student Portal | Eunoia</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/uitmrasmi/?locale=ms_MY"><i class="bi bi-facebook fs-5"></i></a>
+        <a href="https://www.instagram.com/uitm.official/?hl=en"><i class="bi bi-instagram fs-5"></i></a>
+        <a href="https://www.linkedin.com/school/universiti-teknologi-mara/"><i class="bi bi-linkedin fs-5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- Back to Top Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="bi bi-arrow-up"></i>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Back to top button
+    window.addEventListener('scroll', function() {
+      const backToTop = document.getElementById('backToTop');
+      if (window.pageYOffset > 300) {
+        backToTop.style.display = 'block';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // User profile dropdown functionality
+    const userProfile = document.querySelector('.user-profile');
+    userProfile.addEventListener('click', function() {
+      alert('This is John Wick\'s account.');
+    });
+
+    // Enhanced search functionality
+    const searchInput = document.querySelector('input[type="search"]');
+    const searchBtn = document.querySelector('.btn-primary');
+    
+    // List of known students
+    const students = ['Chris Evans', 'Jane Smith', 'Mike Johnson', 'John Wick', 'Emily Davis'];
+    
+    searchBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      
+      if (searchTerm === '') {
+        searchInput.style.borderColor = 'red';
+        setTimeout(() => {
+          searchInput.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+        }, 1000);
+        return;
+      }
+      
+      // Check if search matches a student name
+      const matchedStudent = students.find(student => 
+        student.toLowerCase().includes(searchTerm)
+      );
+      
+      // Check if search contains announcement keywords
+      const isAnnouncement = ['exam', 'announcement', 'notice', 'event', 'schedule'].some(keyword => 
+        searchTerm.includes(keyword)
+      );
+      
+      if (matchedStudent) {
+        // Redirect to student profiles page
+        window.location.href = `dataview1.html?search=${encodeURIComponent(searchTerm)}`;
+      } 
+      else if (isAnnouncement) {
+        // Redirect to announcements page
+        window.location.href = `announcement.html?search=${encodeURIComponent(searchTerm)}`;
+      }
+      else {
+        alert(`No results found for "${searchTerm}".\nTry searching for a student name or "exam".`);
+      }
+    });
+    
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>

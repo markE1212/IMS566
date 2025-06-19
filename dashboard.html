@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* =============== GLOBAL STYLES =============== */
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray: #333333;
+      --light-gray: #f5f5f5;
+      --shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --glow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* =============== NAVBAR =============== */
+    .navbar {
+      background-color: var(--black) !important;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      position: relative;
+    }
+
+    .navbar-brand::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      margin: 0 0.2rem;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* =============== DASHBOARD HEADER =============== */
+    .dashboard-header {
+      background-color: var(--black);
+      color: var(--white);
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard-title {
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .dashboard-subtitle {
+      opacity: 0.9;
+      font-weight: 400;
+    }
+
+    /* =============== STATS CARDS =============== */
+    .stats-container {
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      height: 100%;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--black);
+    }
+
+    .stat-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--black);
+    }
+
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-description {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* =============== GPA METER =============== */
+    .gpa-meter {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 1rem;
+    }
+
+    .gpa-circle {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .gpa-circle-bg {
+      fill: none;
+      stroke: rgba(0, 0, 0, 0.1);
+      stroke-width: 8;
+    }
+
+    .gpa-circle-fill {
+      fill: none;
+      stroke: var(--black);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 314;
+      stroke-dashoffset: calc(314 - (314 * 3.4) / 4);
+      animation: gpaFill 1.5s ease-in-out forwards;
+    }
+
+    @keyframes gpaFill {
+      from { stroke-dashoffset: 314; }
+      to { stroke-dashoffset: calc(314 - (314 * 3.4) / 4); }
+    }
+
+    .gpa-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .gpa-text small {
+      font-size: 1rem;
+      display: block;
+      opacity: 0.7;
+    }
+
+    /* =============== ANNOUNCEMENTS =============== */
+    .announcements-card {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .announcement-item {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: background-color 0.3s ease;
+    }
+
+    .announcement-item:last-child {
+      border-bottom: none;
+    }
+
+    .announcement-item:hover {
+      background-color: var(--light-gray);
+    }
+
+    .announcement-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--black);
+    }
+
+    .announcement-content {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 0.5rem;
+    }
+
+    .announcement-date {
+      font-size: 0.8rem;
+      color: var(--black);
+      font-weight: 500;
+    }
+
+    .badge-new {
+      background-color: var(--black);
+      color: var(--white);
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+    }
+
+    /* =============== TOP STUDENT =============== */
+    .top-student-card {
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .student-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--black);
+      margin: 0 auto 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .student-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--black);
+    }
+
+    .student-title {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+
+    .student-stats {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .student-stat {
+      text-align: center;
+    }
+
+    .student-stat-value {
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .student-stat-label {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+
+        /* =============== BUTTONS =============== */
+    .btn-back {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 0.8rem 1.5rem;
+      font-weight: 600;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* =============== FOOTER =============== */
+    footer {
+      background-color: var(--black);
+      color: var(--white);
+      padding: 1.5rem 0;
+      margin-top: auto;
+    }
+
+    .social-icons a {
+      color: var(--white);
+      margin: 0 0.5rem;
+      transition: var(--transition);
+    }
+
+    .social-icons a:hover {
+      opacity: 0.8;
+    }
+
+    /* =============== RESPONSIVE ADJUSTMENTS =============== */
+    @media (max-width: 768px) {
+      .dashboard-title {
+        font-size: 1.8rem;
+      }
+      
+      .stat-card {
+        margin-bottom: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="menu.html"><i class="bi bi-trophy-fill me-2"></i>Eunoia</a> 
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="dashboard.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dataview1.html">Profiles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="announcement.html">Announcements</a>
+           </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.facebook.com/"><i class="bi bi-facebook fs-5"></i></a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.instagram.com/"><i class="bi bi-instagram fs-5"></i></a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.linkedin.com/"><i class="bi bi-linkedin fs-5"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Header -->
+  <header class="dashboard-header">
+    <div class="container">
+      <h1 class="dashboard-title">Student Dashboard</h1>
+      <p class="dashboard-subtitle">View student statistics and summaries at a glance</p>
+    </div>
+  </header>
+
+  <div class="container" style="flex: 1;">
+    <!-- Stats Overview -->
+    <div class="row stats-container">
+      <!-- Total Students -->
+      <div class="col-md-4">
+        <div class="stat-card">
+          <i class="bi bi-people-fill stat-icon"></i>
+          <h3 class="stat-title">Total Students</h3>
+          <div class="stat-value">5</div>
+          <p class="stat-description">Currently enrolled in the program</p>
+        </div>
+      </div>
+
+      <!-- Average GPA -->
+      <div class="col-md-4">
+        <div class="stat-card">
+          <div class="gpa-meter">
+            <svg class="gpa-circle" viewBox="0 0 100 100">
+              <circle class="gpa-circle-bg" cx="50" cy="50" r="45"></circle>
+              <circle class="gpa-circle-fill" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="gpa-text">3.4<small>/4.0</small></div>
+          </div>
+          <h3 class="stat-title">Average GPA</h3>
+          <p class="stat-description">Class performance overview</p>
+        </div>
+      </div>
+
+      <!-- Top Student -->
+      <div class="col-md-4">
+        <div class="top-student-card">
+          <img src="images/P5.jpg" alt="Top Student" class="student-avatar">
+          <h4 class="student-name">Chris Evans</h4>
+          <p class="student-title">Top Performing Student</p>
+          <div class="student-stats">
+            <div class="student-stat">
+              <div class="student-stat-value">3.9</div>
+              <div class="student-stat-label">GPA</div>
+            </div>
+            <div class="student-stat">
+              <div class="student-stat-value">98%</div>
+              <div class="student-stat-label">Attendance</div>
+            </div>
+            <div class="student-stat">
+              <div class="student-stat-value">A+</div>
+              <div class="student-stat-label">Average</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcements Section -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="announcements-card">
+          <div class="card-header bg-transparent border-bottom-0">
+            <h3 class="mb-0">Latest Announcements</h3>
+          </div>
+          <div class="card-body p-0">
+            <div class="announcement-item">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 class="announcement-title">Exam Schedule Released <span class="badge-new">NEW</span></h5>
+                <span class="announcement-date">Today</span>
+              </div>
+              <p class="announcement-content">The final exam schedule has been published. Please check your email for details.</p>
+            </div>
+            <div class="announcement-item">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 class="announcement-title">Scholarship Applications Open</h5>
+                <span class="announcement-date">Yesterday</span>
+              </div>
+              <p class="announcement-content">Applications for the Dean's Scholarship are now being accepted until the end of the month.</p>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-top-0 text-end">
+            <a href="announcement.html" class="btn btn-link">View All Announcements</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <div class="text-center mt-4">
+        <a href="menu.html" class="btn btn-back">
+          <i class="bi bi-arrow-left-circle-fill me-2"></i>Back to Menu
+        </a>
+      </div>
+    </div>
+  </div>
+  <br><br>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="mb-2"><i class="bi bi-c-circle me-2"></i>2025 Student Portal | Eunoia</p>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/uitmrasmi/?locale=ms_MY"><i class="bi bi-facebook fs-5"></i></a>
+        <a href="https://www.instagram.com/uitm.official/?hl=en"><i class="bi bi-instagram fs-5"></i></a>
+        <a href="https://www.linkedin.com/school/universiti-teknologi-mara/"><i class="bi bi-linkedin fs-5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

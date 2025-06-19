@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>John Doe - Student Portal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    /* =============== GLOBAL STYLES =============== */
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray: #333333;
+      --light-gray: #f5f5f5;
+      --shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --glow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--white);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* =============== NAVBAR =============== */
+    .navbar {
+      background-color: var(--black) !important;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      backdrop-filter: blur(5px);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .navbar-brand::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+
+    .navbar-brand:hover::after {
+      transform: translateX(0);
+    }
+
+    .nav-link {
+      position: relative;
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+    }
+
+    .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--white);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease;
+    }
+
+    .nav-link:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* =============== PROFILE IMAGE ENHANCEMENTS =============== */
+    .profile-img-container {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto;
+      margin-top: 10px;
+      position: relative;
+      border: 5px solid var(--white);
+      border-radius: 50%;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Increased shadow */
+      overflow: hidden;
+      transition: var(--transition);
+      background-color: var(--light-gray); /* Fallback background */
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      filter: brightness(1.05); /* Slight brightness boost */
+      contrast(1.05); /* Slight contrast boost */
+    }
+
+    .profile-img-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); /* Enhanced shadow on hover */
+    }
+
+    .profile-img-container:hover .profile-img {
+      transform: scale(1.1);
+      filter: brightness(1.1); /* Brighter on hover */
+      contrast(1.1); /* More contrast on hover */
+    }
+
+    /* =============== REST OF YOUR ORIGINAL CSS =============== */
+    .profile-container {
+      flex: 1;
+      padding: 3rem 0;
+      position: relative;
+    }
+
+    .profile-header {
+      margin-bottom: 3rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .profile-header h2 {
+      font-weight: 700;
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--black);
+    }
+
+    .profile-card {
+      background: var(--white);
+      border: none;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .profile-card:hover::before {
+      opacity: 1;
+    }
+
+    .profile-body {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .profile-name {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .profile-name::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--black);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease;
+    }
+
+    .profile-card:hover .profile-name::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .profile-details {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+
+    .profile-details li {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: background-color 0.3s ease;
+    }
+
+    .profile-details li:hover {
+      background-color: var(--light-gray);
+    }
+
+    .profile-details li:last-child {
+      border-bottom: none;
+    }
+
+    .progress-container {
+      height: 10px;
+      background-color: var(--light-gray);
+      border-radius: 5px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      background-color: var(--black);
+      height: 100%;
+      transition: width 1.5s ease;
+    }
+
+    .social-icons {
+      margin-top: 1rem;
+    }
+
+    .social-icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--black);
+      color: var(--white);
+      text-align: center;
+      line-height: 40px;
+      margin: 0 0.5rem;
+      transition: var(--transition);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: var(--glow);
+    }
+
+    /* =============== BUTTONS =============== */
+    .btn-back {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 50px;
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      margin-top: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-back:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    /* =============== FOOTER =============== */
+    footer {
+      background-color: var(--black);
+      color: var(--white);
+      padding: 2rem 0;
+      margin-top: auto;
+      position: relative;
+    }
+
+    .footer-social a {
+      color: var(--white);
+      margin: 0 1rem;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease, color 0.3s ease;
+      display: inline-block;
+    }
+
+    .footer-social a:hover {
+      transform: translateY(-3px) scale(1.1);
+      color: var(--light-gray);
+    }
+
+    /* =============== ANIMATIONS =============== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .profile-card {
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+        .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+      display: none;
+      background: var(--black);
+      color: var(--white);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .back-to-top:hover {
+      transform: scale(1.1);
+    }
+
+
+
+    /* =============== TOOLTIPS =============== */
+    .tooltip-inner {
+      background-color: var(--black);
+      color: var(--white);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+
+    .tooltip-arrow {
+      border-top-color: var(--black) !important;
+    }
+
+    /* =============== RESPONSIVE ADJUSTMENTS =============== */
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 2rem 1rem;
+      }
+      
+      .profile-header h2 {
+        font-size: 2rem;
+      }
+      
+      .profile-img-container {
+        width: 150px;
+        height: 150px;
+        margin-top: -75px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><i class="bi bi-person-fill me-2"></i>Eunoia</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="dashboard.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="dataview1.html">Profiles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="announcement.html">Announcements</a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.facebook.com/uitmrasmi/?locale=ms_MY"><i class="bi bi-facebook"></i></a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.instagram.com/uitm.official/?hl=en"><i class="bi bi-instagram"></i></a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="nav-link" href="https://www.linkedin.com/school/universiti-teknologi-mara/"><i class="bi bi-linkedin"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Section -->
+  <div class="profile-container">
+    <div class="container">
+      <div class="profile-header">
+        <h2>Student Details</h2>
+      </div>
+      
+      <div class="profile-card">
+        <div class="profile-img-container">
+          <img src="images/emilydavis2.jpg" alt="Emily Davis" class="profile-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/180x180?text=JD'; this.style.filter='none'">
+        </div>
+        
+        <div class="profile-body">
+          <h3 class="profile-name">Emily Davis</h3>
+          
+          <ul class="profile-details">
+            <li><strong>Student ID:</strong> 1004</li>
+            <li><strong>Program:</strong> Nursing</li>
+            <li>
+              <strong>GPA:</strong> 3.6
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 88%"></div>
+              </div>
+            </li>
+            <li><strong>Email:</strong> emilynurse@example.com</li>
+            <li><strong>Phone:</strong> +1 (888) 777-6666</li>
+            <li><strong>Address:</strong> 101 Nurse Drive, City, State, ZIP</li>
+            <li><strong>Birthday:</strong> April 5, 2001</li>
+            <li><strong>Hobbies:</strong> Yoga, Gardening, Cooking</li>
+            <li class="text-center">
+             <div class="social-icons">
+                <a href="https://www.linkedin.com/" class="social-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="LinkedIn Profile">
+                  <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="https://www.instagram.com/" class="social-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Instagram">
+                  <i class="bi bi-instagram"></i>
+                </a>
+                <a href="https://github.com/" class="social-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="GitHub Profile">
+                  <i class="bi bi-github"></i>
+                </a>
+              </div>
+            </li>
+          </ul>
+          
+          <a href="dataview1.html" class="btn btn-back" data-bs-toggle="tooltip" title="Go back to the student list">
+            <i class="bi bi-arrow-left-circle-fill me-2"></i>Back to List
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="mb-3"><i class="bi bi-c-circle me-2"></i>2025 Student Portal | Eunoia</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/uitmrasmi/?locale=ms_MY"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/uitm.official/?hl=en"><i class="bi bi-instagram"></i></a>
+        <a href="https://www.linkedin.com/school/universiti-teknologi-mara/"><i class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" id="backToTop">
+    <i class="bi bi-arrow-up"></i>
+  </a>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipEl) {
+      return new bootstrap.Tooltip(tooltipEl);
+    });
+
+    // Back to top button
+    window.addEventListener('scroll', function() {
+      const backToTop = document.getElementById('backToTop');
+      if (window.pageYOffset > 200) {
+        backToTop.style.display = 'block';
+      } else {
+        backToTop.style.display = 'none';
+      }
+    });
+
+    document.getElementById('backToTop').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+
+    // Animate progress bar on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const progressBar = document.querySelector('.progress-bar');
+      progressBar.style.width = '0';
+      setTimeout(() => {
+        progressBar.style.width = '88%';
+      }, 300);
+    });
+  </script>
+</body>
+</html>
